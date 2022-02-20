@@ -15,25 +15,37 @@ import {
     Center,
     Icon, Button, Divider
 } from '@chakra-ui/react';
-import { Link as ReachLink } from 'react-router-dom';
+import {Link as ReachLink} from 'react-router-dom';
 import AnimatedCar from '../assets/animated-car.gif';
 import {MdOutlineAlternateEmail, MdPassword} from 'react-icons/md';
 import {AiOutlineUser} from 'react-icons/ai';
 import {FcGoogle} from 'react-icons/fc';
 // @ts-ignore
-import Fade from 'react-reveal/Fade';
+import LightSpeed from 'react-reveal/LightSpeed';
 
 function SignUp() {
     return (
-        <Grid w={'100vw'} h={'100vh'} templateColumns='repeat(2, 1fr)'>
-            <GridItem w='100%' h='100%' px={40} py={10}>
-                <HaveAnAccount/>
-                <SignUpForm/>
+        <Grid templateColumns='repeat(2, 1fr)'>
+            <GridItem h={'100vh'} py={10} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
+                <Flex flexDir={'column'} h={'100%'}>
+                    <Box flexGrow={0}>
+                        <HaveAnAccount/>
+                    </Box>
+                    <Flex py={5} h={'full'} flexGrow={1} flexDir={'column'} justifyContent={'center'}>
+                        <SignUpForm/>
+                    </Flex>
+                </Flex>
             </GridItem>
-            <GridItem w='100%' h='100%' bg='#472d6a'>
-                <Center h={'100%'} w={'100%'}>
-                    <Image src={AnimatedCar} alt='Animated car' mt={-20}/>
-                </Center>
+            <GridItem h={'100vh'} bg='#472d6a' colSpan={[2, 1]} order={[1, 2]} py={10} px={[7, 10, 20]} textAlign={'center'}>
+                <Flex flexDir={'column'} justifyContent={'center'} h={'100%'}>
+                    <LightSpeed left>
+                        <Heading textColor={'white'}>Welcome to RoadFlow</Heading>
+                        <Text py={5} fontWeight={200} color={'gray.200'}>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </Text>
+                    </LightSpeed>
+                    <Image src={AnimatedCar} alt='Animated car'/>
+                </Flex>
             </GridItem>
         </Grid>
     );
@@ -50,11 +62,8 @@ function HaveAnAccount() {
 
 function SignUpForm() {
     return (
-        <Box pt={24}>
-            <Fade top>
-                <Heading>Welcome to RoadFlow</Heading>
-            </Fade>
-            <Text py={5} fontWeight={200} color={'gray.400'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>
+        <>
+            <Heading>Sign up</Heading>
 
             <Box py={5}>
                 <FormControl mb={4}>
@@ -62,7 +71,7 @@ function SignUpForm() {
                     <InputGroup size={'sm'}>
                         <InputRightElement
                             pointerEvents='none'
-                            children={<Icon as={MdOutlineAlternateEmail} />}
+                            children={<Icon as={MdOutlineAlternateEmail}/>}
                         />
                         <Input
                             id='email'
@@ -81,7 +90,7 @@ function SignUpForm() {
                     <InputGroup size={'sm'}>
                         <InputRightElement
                             pointerEvents='none'
-                            children={<Icon as={AiOutlineUser} />}
+                            children={<Icon as={AiOutlineUser}/>}
                         />
                         <Input
                             id='username'
@@ -99,7 +108,7 @@ function SignUpForm() {
                     <InputGroup size={'sm'}>
                         <InputRightElement
                             pointerEvents='none'
-                            children={<Icon as={MdPassword} />}
+                            children={<Icon as={MdPassword}/>}
                         />
                         <Input
                             id='username'
@@ -126,7 +135,7 @@ function SignUpForm() {
 
             <Button w={'100%'} colorScheme='blue' mt={4}>Create an account</Button>
 
-            <Divider my={4} />
+            <Divider my={4}/>
 
             <Text color={'gray.400'} align={'center'}>Or sign up with</Text>
 
@@ -135,10 +144,9 @@ function SignUpForm() {
                     <Icon as={FcGoogle} fontSize={28}/>
                 </Button>
             </Center>
-        </Box>
+        </>
     );
 }
-
 
 
 export default SignUp;

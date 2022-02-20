@@ -18,6 +18,17 @@ builder.Services.AddSingleton(jwtConfiguration);
 builder.Services.AddSingleton(googleAuthConfiguration);
 builder.Services.AddSingleton(mongoDbConfiguration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("RoadFlowCorsPolicy", configurePolicy =>
+    {
+        configurePolicy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
