@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RoadFlow.Common.Auth;
 using RoadFlow.Common.Configurations;
@@ -31,9 +32,14 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthentication(options =>
     {
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/account/google-login";
     })
     .AddAuthenticationByJwtBearer(jwtConfiguration)
     .AddAuthenticationByGoogleOAuth(googleAuthConfiguration);
@@ -59,6 +65,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

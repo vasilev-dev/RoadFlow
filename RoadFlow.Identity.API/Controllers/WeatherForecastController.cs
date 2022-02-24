@@ -36,15 +36,22 @@ namespace RoadFlow.Identity.API.Controllers
         
         [HttpGet("GetWeatherForecast2")]
         [Authorize]
-        public IEnumerable<WeatherForecast> Get2()
+        public IActionResult Get2()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    TemperatureC = Random.Shared.Next(-20, 55),
-                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                })
-                .ToArray();
+            var claims = User.Claims.Select(c => new
+            {
+                c.Type,
+                c.Value
+            });
+            return Ok(claims);
+
+            // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            //     {
+            //         Date = DateTime.Now.AddDays(index),
+            //         TemperatureC = Random.Shared.Next(-20, 55),
+            //         Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            //     })
+            //     .ToArray();
         }
     }
 }

@@ -13,7 +13,7 @@ import {
     InputRightElement,
     Image,
     Center,
-    Icon, Button, Divider
+    Icon, Button, Divider, FormErrorMessage
 } from '@chakra-ui/react';
 import {Link as ReachLink} from 'react-router-dom';
 import AnimatedCar from '../assets/animated-car.gif';
@@ -22,11 +22,14 @@ import {AiOutlineUser} from 'react-icons/ai';
 import {FcGoogle} from 'react-icons/fc';
 // @ts-ignore
 import LightSpeed from 'react-reveal/LightSpeed';
+import {useForm} from 'react-hook-form';
+import emailPattern from "../shared/form/emailPattern";
+import passwordPattern from "../shared/form/passwordPattern";
 
 function SignUp() {
     return (
         <Grid templateColumns='repeat(2, 1fr)'>
-            <GridItem h={'100vh'} py={10} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
+            <GridItem minH={'100vh'} py={[4, 10]} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
                 <Flex flexDir={'column'} h={'100%'}>
                     <Box flexGrow={0}>
                         <HaveAnAccount/>
@@ -61,87 +64,138 @@ function HaveAnAccount() {
 }
 
 function SignUpForm() {
+    const {
+        handleSubmit,
+        register,
+        formState: { errors, isSubmitting },
+        getValues
+    } = useForm();
+
+    function onSubmit(values: any): Promise<void> {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                resolve();
+            }, 3000)
+        })
+    }
+
     return (
         <>
             <Heading>Sign up</Heading>
 
             <Box py={5}>
-                <FormControl mb={4}>
-                    <FormLabel htmlFor='email'>Email address</FormLabel>
-                    <InputGroup size={'sm'}>
-                        <InputRightElement
-                            pointerEvents='none'
-                            children={<Icon as={MdOutlineAlternateEmail}/>}
-                        />
-                        <Input
-                            id='email'
-                            type='email'
-                            required={true}
-                            placeholder={"example@mail.com"}
-                            //value={input}
-                            //onChange={handleInputChange}
-                        />
-                    </InputGroup>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormControl mb={4} isInvalid={errors.email}>
+                        <FormLabel htmlFor='email'>Email address</FormLabel>
+                        <InputGroup size={'sm'}>
+                            <InputRightElement
+                                pointerEvents='none'
+                                children={<Icon as={MdOutlineAlternateEmail}/>}
+                            />
+                            <Input
+                                id='email'
+                                type='email'
+                                placeholder={"example@mail.com"}
+                                {...register('email', {
+                                    required: 'Email is required',
+                                    pattern: emailPattern
+                                })}
+                            />
+                        </InputGroup>
+                        <FormErrorMessage fontSize={'sm'}>
+                            {errors.email && errors.email.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
-                </FormControl>
+                    <FormControl mb={4} isInvalid={errors.username}>
+                        <FormLabel htmlFor='username'>Username</FormLabel>
+                        <InputGroup size={'sm'}>
+                            <InputRightElement
+                                pointerEvents='none'
+                                children={<Icon as={AiOutlineUser}/>}
+                            />
+                            <Input
+                                id='username'
+                                type='text'
+                                required={true}
+                                placeholder={"Ryan Gosling"}
+                                {...register('username', {
+                                    required: 'Username is required',
+                                    minLength: {
+                                        value: 3,
+                                        message: 'Minimum length is 3'
+                                    },
+                                    maxLength: {
+                                        value: 32,
+                                        message: 'Maximum length is 32'
+                                    }
+                                })}
+                                isInvalid={errors.username}
+                            />
+                        </InputGroup>
+                        <FormErrorMessage fontSize={'sm'}>
+                            {errors.username && errors.username.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
-                <FormControl mb={4}>
-                    <FormLabel htmlFor='username'>Username</FormLabel>
-                    <InputGroup size={'sm'}>
-                        <InputRightElement
-                            pointerEvents='none'
-                            children={<Icon as={AiOutlineUser}/>}
-                        />
-                        <Input
-                            id='username'
-                            type='text'
-                            required={true}
-                            placeholder={"Ryan Gosling"}
-                            //value={input}
-                            //onChange={handleInputChange}
-                        />
-                    </InputGroup>
-                </FormControl>
+                    <FormControl mb={4} isInvalid={errors.password}>
+                        <FormLabel htmlFor='password'>Password</FormLabel>
+                        <InputGroup size={'sm'}>
+                            <InputRightElement
+                                pointerEvents='none'
+                                children={<Icon as={MdPassword}/>}
+                            />
+                            <Input
+                                id='password'
+                                type='password'
+                                required={true}
+                                {...register('password', {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 8,
+                                        message: 'Minimum length is 8'
+                                    },
+                                    maxLength: {
+                                        value: 32,
+                                        message: 'Maximum length is 32'
+                                    },
+                                    pattern: passwordPattern
+                                })}
+                            />
+                        </InputGroup>
+                        <FormErrorMessage fontSize={'sm'}>
+                            {errors.password && errors.password.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
-                <FormControl mb={4}>
-                    <FormLabel htmlFor='email'>Password</FormLabel>
-                    <InputGroup size={'sm'}>
-                        <InputRightElement
-                            pointerEvents='none'
-                            children={<Icon as={MdPassword}/>}
-                        />
+                    <FormControl mb={4} isInvalid={errors.confirmPassword}>
+                        <FormLabel htmlFor='confirm-password'>Confirm password</FormLabel>
                         <Input
-                            id='username'
+                            id='confirm-password'
                             type='password'
                             required={true}
-                            //value={input}
-                            //onChange={handleInputChange}
+                            size={'sm'}
+                            {...register('confirmPassword', {
+                                validate: value => value === getValues('password') || 'Passwords don\'t match'
+                            })}
                         />
-                    </InputGroup>
-                </FormControl>
+                        <FormErrorMessage fontSize={'sm'}>
+                            {errors.confirmPassword && errors.confirmPassword.message}
+                        </FormErrorMessage>
+                    </FormControl>
 
-                <FormControl>
-                    <FormLabel htmlFor='confirm-password'>Confirm password</FormLabel>
-                    <Input
-                        id='confirm-password'
-                        type='password'
-                        required={true}
-                        size={'sm'}
-                        //value={input}
-                        //onChange={handleInputChange}
-                    />
-                </FormControl>
+                    <Button w={'100%'} colorScheme='blue' isLoading={isSubmitting} type='submit'>Create an account</Button>
+                </form>
             </Box>
 
-            <Button w={'100%'} colorScheme='blue' mt={4}>Create an account</Button>
-
-            <Divider my={4}/>
+            <Divider mb={[1, 4]}/>
 
             <Text color={'gray.400'} align={'center'}>Or sign up with</Text>
 
-            <Center mt={4}>
-                <Button colorScheme='whiteAlpha' border={'1px'} borderColor={'gray.200'}>
-                    <Icon as={FcGoogle} fontSize={28}/>
+            <Center mt={[1, 4]}>
+                <Button colorScheme='whiteAlpha' border={'1px'} borderColor={'gray.200'} size={'sm'}>
+                    <Icon as={FcGoogle} fontSize={[14, 26]}/>
                 </Button>
             </Center>
         </>
