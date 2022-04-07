@@ -2,6 +2,7 @@
 
 public enum ClientErrorCode
 {
-    UserWithUsernameAlreadyExistsError,
-    UserWithEmailAlreadyExistsError
+    UserWithEmailAlreadyExistsError,
+    UserDoesNotExist,
+    WrongPassword
 }

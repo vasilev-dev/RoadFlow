@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RoadFlow.Identity.Core.Domains.User.SignIn;
 using RoadFlow.Identity.Core.Domains.User.SignUp;
 
 namespace RoadFlow.Identity.API.Controllers;
 
 [ApiController]
+[Route("api/user")]
 public class IdentityController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -19,7 +21,7 @@ public class IdentityController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost(Route.SignUp)]
+    [HttpPost("sign-up")]
     public async Task<IActionResult> SignUp([FromBody] SignUpCommand signUpCommand)
     {
         var tokenResponse = await _mediator.Send(signUpCommand);
@@ -28,16 +30,16 @@ public class IdentityController : ControllerBase
     }
     
     [AllowAnonymous]
-    [Route("account/google-login")]
-    public IActionResult GoogleLogin()
+    [HttpGet("google/sign-in")]
+    public IActionResult GoogleSignIn()
     {
-        var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+        var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleSignInCallback") };
         return Challenge(properties, GoogleDefaults.AuthenticationScheme);
     }
  
     [AllowAnonymous]
-    [Route("account/google-response")]
-    public async Task<IActionResult> GoogleResponse()
+    [HttpPost("google/sign-in-callback")]
+    public async Task<IActionResult> GoogleSignInCallback()
     {
         var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
  
@@ -51,6 +53,15 @@ public class IdentityController : ControllerBase
             });
 
         return Ok(claims);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("sign-in")]
+    public async Task<IActionResult> SignIn([FromBody] SignInCommand signInCommand)
+    {
+        var tokenResponse = await _mediator.Send(signInCommand);
+
+        return Ok(tokenResponse);
     }
     
     // [HttpPost(Route.SignIn)]

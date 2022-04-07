@@ -27,9 +27,6 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, TokenResponse
     {
         var (username, email, password) = request;
         
-        if (await _userRepository.ExistsWithUsername(username))
-            throw new ClientException(ClientErrorCode.UserWithUsernameAlreadyExistsError);
-        
         if (await _userRepository.ExistsWithEmail(email))
             throw new ClientException(ClientErrorCode.UserWithEmailAlreadyExistsError);
 

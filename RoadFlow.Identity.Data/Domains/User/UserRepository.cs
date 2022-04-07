@@ -12,19 +12,19 @@ public class UserRepository : IUserRepository
     {
         _userCollection = mongoContext.Database.GetCollection<Core.Domains.User.User>("Users");
     }
-    
+
     public async Task CreateUser(Core.Domains.User.User user)
     {
         await _userCollection.InsertOneAsync(user);
     }
-
-    public async Task<bool> ExistsWithUsername(string username)
-    {
-        return await _userCollection.Find(user => user.Username == username).AnyAsync();
-    }
-
+    
     public async Task<bool> ExistsWithEmail(string email)
     {
-        return await _userCollection.Find(user => user.Username == email).AnyAsync();
+        return await _userCollection.Find(user => user.Email == email).AnyAsync();
+    }
+
+    public async Task<Core.Domains.User.User> GetByEmail(string email)
+    {
+        return await _userCollection.Find(user => user.Email == email).FirstOrDefaultAsync();
     }
 }

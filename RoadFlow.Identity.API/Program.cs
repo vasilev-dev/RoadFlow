@@ -39,7 +39,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie(options =>
     {
-        options.LoginPath = "/account/google-login";
+        options.LoginPath = "/google/sign-in";
     })
     .AddAuthenticationByJwtBearer(jwtConfiguration)
     .AddAuthenticationByGoogleOAuth(googleAuthConfiguration);
@@ -66,7 +66,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("RoadFlowCorsPolicy");
 
 app.UseHttpsRedirection();
 

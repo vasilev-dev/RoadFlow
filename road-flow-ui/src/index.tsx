@@ -8,9 +8,9 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
+// import '@fontsource/raleway/400.css'
+// import '@fontsource/open-sans/700.css'
 import theme from './theme';
-import '@fontsource/raleway/400.css';
-import '@fontsource/open-sans/700.css';
 
 ReactDOM.render(
     <React.StrictMode>
