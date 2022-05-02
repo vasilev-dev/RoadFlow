@@ -16,7 +16,9 @@ public static class SharedConfigurationBuilder
         var mongoDbConfiguration = new MongoDbConfiguration();
         configuration.Bind("MongoDB", mongoDbConfiguration);
 
-        var sharedConfiguration = new SharedConfiguration(jwtConfiguration, googleAuthConfiguration, mongoDbConfiguration);
+        var allowedClientOrigins = configuration.GetSection("AllowedClientOrigins").Get<string[]>();
+
+        var sharedConfiguration = new SharedConfiguration(jwtConfiguration, googleAuthConfiguration, mongoDbConfiguration, allowedClientOrigins);
         
         var validator = new SharedConfigurationValidator();
         validator.ValidateAndThrow(sharedConfiguration);

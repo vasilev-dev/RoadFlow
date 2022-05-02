@@ -1,2 +1,2 @@
-﻿Добавить unique email в БД (https://github.com/vasilev-dev/ITFriends/tree/bb30b63bc1f9d0593816516067146150a32c4c0c/ITFriends.Infrastructure.Data.Read/Migrations)
-Добавить логгер на 500 в файл
+﻿Пофиксить предупреждения
+Отрефакторить Program

@@ -3,4 +3,5 @@
 public record SharedConfiguration(
     JwtConfiguration JwtConfiguration,
     GoogleAuthConfiguration GoogleAuthConfiguration,
-    MongoDbConfiguration MongoDbConfiguration);
+    MongoDbConfiguration MongoDbConfiguration,
+    string[] AllowedClientOrigins);

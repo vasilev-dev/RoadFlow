@@ -14,5 +14,8 @@ public class SharedConfigurationValidator : AbstractValidator<SharedConfiguratio
 
         RuleFor(x => x.MongoDbConfiguration)
             .SetValidator(new MongoDbConfigurationValidator());
+
+        RuleFor(x => x.AllowedClientOrigins)
+            .NotNull();
     }
 }

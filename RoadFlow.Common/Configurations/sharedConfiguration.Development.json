@@ -12,5 +12,8 @@
   },
   "MongoDB": {
     "DatabaseName": "RoadFlowDB"
-  }
+  },
+  "AllowedClientOrigins": [
+    "http://localhost:3000"
+  ]
 }

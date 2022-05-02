@@ -3,14 +3,13 @@ using RoadFlow.Common.Configurations;
 
 namespace RoadFlow.Data;
 
-public class MongoContext
+public class MongoContext : IMongoContext
 {
-    private readonly MongoClient _client;
     public IMongoDatabase Database { get; }
 
     public MongoContext(MongoDbConfiguration mongoDbConfiguration)
     {
-        _client = new MongoClient(mongoDbConfiguration.ConnectionString);
-        Database = _client.GetDatabase(mongoDbConfiguration.DatabaseName);
+        var client = new MongoClient(mongoDbConfiguration.ConnectionString);
+        Database = client.GetDatabase(mongoDbConfiguration.DatabaseName);
     }
 }

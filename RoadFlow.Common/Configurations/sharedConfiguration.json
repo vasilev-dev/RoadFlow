@@ -12,5 +12,6 @@
   },
   "MongoDB": {
     "DatabaseName": "RoadFlowDB"
-  }
+  },
+  "AllowedClientOrigins": []
 }

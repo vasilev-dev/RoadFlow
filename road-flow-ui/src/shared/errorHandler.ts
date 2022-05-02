@@ -2,8 +2,6 @@ import axios, {AxiosError} from "axios";
 import {ClientErrorMessage} from "../api/clientErrors";
 import {UseToastOptions} from "@chakra-ui/react";
 
-// todo перенести это в настройки axios, ловить когда сервер не отвечает
-// сделать компонент-обертку на ошибки и открывать toast (нужен store)
 export function handleClientError(error: unknown, handleFn: (errorMessage: string) => void) {
     const somethingWentWrongMessage = 'Something went wrong 🥺'
 
@@ -16,20 +14,18 @@ export function handleClientError(error: unknown, handleFn: (errorMessage: strin
     const errorCode = axiosError.response?.data?.errorCode;
 
     if (!errorCode) {
-        console.log(axiosError)
-
         handleFn(somethingWentWrongMessage);
         throw error;
     }
 
-    if (ClientErrorMessage.has(errorCode)) {
-        // @ts-ignore
-        handleFn(ClientErrorMessage.get(errorCode));
+    const clientErrorMessage = ClientErrorMessage.get(errorCode);
+
+    if (clientErrorMessage) {
+        handleFn(clientErrorMessage);
         return;
     }
 
     handleFn(somethingWentWrongMessage);
-    console.log(4);
     throw new Error(`Not implemented error code: ${errorCode}`);
 }
 

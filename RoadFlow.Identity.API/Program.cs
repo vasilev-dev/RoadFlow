@@ -9,22 +9,35 @@ using RoadFlow.Common.Mediator;
 using RoadFlow.Data;
 using RoadFlow.Identity.API.IoC;
 using RoadFlow.Identity.Core;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.SetupApplicationConfigurations();
-var (jwtConfiguration, googleAuthConfiguration, mongoDbConfiguration) = SharedConfigurationBuilder.BindAndValidate(builder.Configuration);
+var (
+    jwtConfiguration, 
+    googleAuthConfiguration,
+    mongoDbConfiguration, 
+    allowedClientOrigins) = SharedConfigurationBuilder.BindAndValidate(builder.Configuration);
 
 builder.Services.AddSingleton(jwtConfiguration);
 builder.Services.AddSingleton(googleAuthConfiguration);
 builder.Services.AddSingleton(mongoDbConfiguration);
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("../logs/RoadFlowIdentityAPI.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Services.AddSingleton(Log.Logger);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("RoadFlowCorsPolicy", configurePolicy =>
     {
         configurePolicy
-            .AllowAnyOrigin()
+            .WithOrigins(allowedClientOrigins)
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -44,7 +57,7 @@ builder.Services.AddAuthentication(options =>
     .AddAuthenticationByJwtBearer(jwtConfiguration)
     .AddAuthenticationByGoogleOAuth(googleAuthConfiguration);
 
-builder.Services.AddSingleton<MongoContext>();
+builder.Services.AddSingleton<IMongoContext>(new MongoContext(mongoDbConfiguration));
 
 builder.Services.RegisterAppRepositories();
 builder.Services.RegisterAppServices();
@@ -76,5 +89,7 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
+
+app.RunMigrations();
 
 app.Run();

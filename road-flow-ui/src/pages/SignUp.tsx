@@ -23,7 +23,6 @@ import * as yup from "yup";
 import {Form, Formik} from "formik";
 import {signUp} from "../api/userApi";
 import TextField from "../components/TextField";
-import {Axios, AxiosError} from "axios";
 import {getToastDefaultParams, handleClientError} from "../shared/errorHandler";
 import {useState} from "react";
 
@@ -124,18 +123,21 @@ function SignUpForm() {
             <Heading>Sign up</Heading>
 
             <Box py={5}>
-                <Formik initialValues={initialValues} validationSchema={validationScheme}  onSubmit={(values, actions) => {
-                    onSubmit(values)
-                    //actions.resetForm();
-                }}>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationScheme}
+                    onSubmit={(values) => onSubmit(values)}>
                     {formik => (
                         <Form onSubmit={formik.handleSubmit}>
-                            <TextField type={'text'} label={'Email'} name="email" placeholder="example@mail.com" mb={4} icon={MdOutlineAlternateEmail} />
-                            <TextField type={'text'} label={'Username'} name="username" placeholder="Ryan Gosling" mb={4} icon={AiOutlineUser} />
-                            <TextField type={'password'} label={'Password'} name="password" mb={4} icon={MdPassword} />
+                            <TextField type={'text'} label={'Email'} name="email" placeholder="example@mail.com" mb={4}
+                                       icon={MdOutlineAlternateEmail}/>
+                            <TextField type={'text'} label={'Username'} name="username" placeholder="Ryan Gosling"
+                                       mb={4} icon={AiOutlineUser}/>
+                            <TextField type={'password'} label={'Password'} name="password" mb={4} icon={MdPassword}/>
                             <TextField type={'password'} label={'Confirm password'} name="confirmPassword" mb={4}/>
 
-                            <Button type='submit' w={'100%'} colorScheme='blue' isLoading={false} mt={5}>Create an account</Button>
+                            <Button type='submit' w={'100%'} colorScheme='blue' isLoading={false} mt={5}>Create an
+                                account</Button>
                         </Form>
                     )}
                 </Formik>
@@ -153,6 +155,5 @@ function SignUpForm() {
         </>
     );
 }
-
 
 export default SignUp;

@@ -8,7 +8,7 @@ public class UserRepository : IUserRepository
 {
     private readonly IMongoCollection<Core.Domains.User.User> _userCollection;
 
-    public UserRepository(MongoContext mongoContext)
+    public UserRepository(IMongoContext mongoContext)
     {
         _userCollection = mongoContext.Database.GetCollection<Core.Domains.User.User>("Users");
     }
