@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {ChakraProvider} from '@chakra-ui/react'
-import './index.css'
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
-import SignUp from './pages/SignUp';
+import SignUpPage from './pages/sign-up/SignUpPage';
 import SignIn from './pages/SignIn';
-// import '@fontsource/raleway/400.css'
-// import '@fontsource/open-sans/700.css'
 import theme from './theme';
+import './index.css'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -19,7 +17,7 @@ ReactDOM.render(
                 <Routes>
                     <Route path="/" element={<App/>}/>
                     <Route path="/home" element={<Home/>}/>
-                    <Route path="/sign-up" element={<SignUp/>}/>
+                    <Route path="/sign-up" element={<SignUpPage/>}/>
                     <Route path="/sign-in" element={<SignIn/>}/>
                 </Routes>
             </BrowserRouter>
