@@ -40,14 +40,14 @@ const SignUpForm: React.FC = () => {
                     onSubmit={(values) => onSubmit(values)}>
                     {formik => (
                         <Form onSubmit={formik.handleSubmit}>
-                            <TextField type={'text'} label={'Email'} name="email" placeholder="example@mail.com" mb={4}
+                            <TextField type={'text'} label={'Email'} name="email" placeholder="example@mail.com" mb={2}
                                        icon={MdOutlineAlternateEmail}/>
                             <TextField type={'text'} label={'Username'} name="username" placeholder="Ryan Gosling"
-                                       mb={4} icon={AiOutlineUser}/>
-                            <TextField type={'password'} label={'Password'} name="password" mb={4} icon={MdPassword}/>
-                            <TextField type={'password'} label={'Confirm password'} name="confirmPassword" mb={4}/>
+                                       mb={2} icon={AiOutlineUser}/>
+                            <TextField type={'password'} label={'Password'} name="password" mb={2} icon={MdPassword}/>
+                            <TextField type={'password'} label={'Confirm password'} name="confirmPassword" mb={2}/>
 
-                            <Button type='submit' w={'100%'} colorScheme='blue' isLoading={false} mt={5}>Create an
+                            <Button type='submit' w={'100%'} colorScheme='blue' isLoading={false} mt={2}>Create an
                                 account</Button>
                         </Form>
                     )}

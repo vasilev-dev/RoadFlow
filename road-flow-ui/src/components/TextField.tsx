@@ -1,13 +1,15 @@
+import {Field, useField} from 'formik';
+import React from 'react';
 import {
+    Input,
+    InputGroup,
+    InputRightElement,
+    Icon, InputProps,
     FormControl,
-    FormErrorMessage,
     FormLabel,
-} from "@chakra-ui/form-control";
-import {Field, useField} from "formik";
-import React from "react";
-import {Input, InputGroup, InputRightElement, Icon, InputProps} from "@chakra-ui/react";
-import { MdOutlineAlternateEmail } from "react-icons/md";
-import {IconType} from "react-icons";
+    FormErrorMessage
+} from '@chakra-ui/react';
+import {IconType} from 'react-icons';
 
 type TextFieldProps = InputProps & {
     label: string;

@@ -9,8 +9,8 @@ const FixedColorThemeSwitcher: React.FC = () => {
 
     const getIcon = (): JSX.Element => {
         const icon = colorMode === 'dark' ?
-            <BsFillSunFill color={'#ffffff'}/> :
-            <BsMoonFill color={'#ffffff'}/>;
+            <BsFillSunFill/> :
+            <BsMoonFill/>;
 
         return <Flip duration={1000} left spy={colorMode}>{icon}</Flip>;
     }
@@ -21,7 +21,6 @@ const FixedColorThemeSwitcher: React.FC = () => {
                 icon={getIcon()}
                 aria-label={'Switch color theme'}
                 bgColor={'transparent'}
-                colorScheme={'whiteAlpha'}
                 _hover={{
                     background: 'transparent'
                 }}

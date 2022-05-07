@@ -22,13 +22,13 @@ const SignUpPage: React.FC = () => {
         <>
             <FixedColorThemeSwitcher/>
 
-            <Grid templateColumns='repeat(2, 1fr)'>
-                <GridItem minH={'100vh'} py={[4, 10]} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
+            <Grid templateColumns={'repeat(2, 1fr)'}>
+                <GridItem minH={'100vh'} py={[4, 8]} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
                     <Flex flexDir={'column'} h={'100%'}>
                         <Box flexGrow={0}>
                             <HaveAnAccount/>
                         </Box>
-                        <Flex flexGrow={1} py={5} flexDir={'column'} justifyContent={'center'}>
+                        <Flex flexGrow={1} py={[2, 4]} flexDir={'column'} justifyContent={'center'}>
                             <SignUpForm/>
                         </Flex>
                         <Box>
