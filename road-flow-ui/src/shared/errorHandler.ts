@@ -11,6 +11,7 @@ export function handleClientError(error: unknown, handleFn: (errorMessage: strin
     }
 
     const axiosError = error as AxiosError;
+    // @ts-ignore
     const errorCode = axiosError.response?.data?.errorCode;
 
     if (!errorCode) {
