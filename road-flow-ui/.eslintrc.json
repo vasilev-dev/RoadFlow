@@ -1,0 +1,35 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:mobx/recommended",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "mobx",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "mobx/exhaustive-make-observable": "error",
+        "mobx/unconditional-make-observable": "error",
+        "mobx/missing-make-observable": "error",
+        "mobx/missing-observer": "error",
+        "mobx/no-anonymous-observer": "error"
+    }
+}
