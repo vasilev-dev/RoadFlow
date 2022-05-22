@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace RoadFlow.Common.Configurations;
+namespace RoadFlow.Common.Configurations.MongoDb;
 
 public class MongoDbConfigurationValidator : AbstractValidator<MongoDbConfiguration>
 {

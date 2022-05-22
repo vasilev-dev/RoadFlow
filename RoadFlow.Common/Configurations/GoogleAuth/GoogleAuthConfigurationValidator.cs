@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace RoadFlow.Common.Configurations;
+namespace RoadFlow.Common.Configurations.GoogleAuth;
 
 public class GoogleAuthConfigurationValidator : AbstractValidator<GoogleAuthConfiguration>
 {

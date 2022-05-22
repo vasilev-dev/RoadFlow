@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace RoadFlow.Common.Configurations;
+namespace RoadFlow.Common.Configurations.Jwt;
 
 public class JwtConfigurationValidator : AbstractValidator<JwtConfiguration>
 {

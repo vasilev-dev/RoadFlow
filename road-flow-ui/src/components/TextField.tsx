@@ -4,19 +4,21 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Icon, InputProps,
+    Icon,
+    InputProps,
     FormControl,
     FormLabel,
-    FormErrorMessage
+    FormErrorMessage,
 } from '@chakra-ui/react';
 import {IconType} from 'react-icons';
 
 type TextFieldProps = InputProps & {
     label: string;
     icon?: IconType;
-}
+};
 
-const TextField: React.FC<TextFieldProps> = ({ label, icon, ...props }) => {
+const TextField: React.FC<TextFieldProps> = ({label, icon, ...props}) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const [field, meta] = useField(props);
     const {m, mt, mr, mb, ml, p, pt, pr, pb, pl, ...inputProps} = props;
@@ -25,15 +27,14 @@ const TextField: React.FC<TextFieldProps> = ({ label, icon, ...props }) => {
     const DefaultInput = <Field as={Input} {...field} {...inputProps} />;
     const InputWithIcon = (
         <InputGroup>
-            <InputRightElement
-                pointerEvents='none'
-                children={<Icon as={icon}/>}
-            />
+            <InputRightElement pointerEvents='none'>
+                <Icon as={icon} />
+            </InputRightElement>
             {DefaultInput}
         </InputGroup>
     );
 
-    const renderInput = () => !!icon ? InputWithIcon : DefaultInput;
+    const renderInput = () => (icon ? InputWithIcon : DefaultInput);
 
     return (
         <FormControl isInvalid={!!meta.error && meta.touched} {...formControlProps}>
@@ -43,6 +44,5 @@ const TextField: React.FC<TextFieldProps> = ({ label, icon, ...props }) => {
         </FormControl>
     );
 };
-
 
 export default TextField;

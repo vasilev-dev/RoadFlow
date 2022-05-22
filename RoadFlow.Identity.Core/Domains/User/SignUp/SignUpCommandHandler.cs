@@ -31,14 +31,15 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, TokenResponse
             throw new ClientException(ClientErrorCode.UserWithEmailAlreadyExistsError);
 
         const string userRole = Role.User;
+        var userId = Guid.NewGuid().ToString();
 
         var (passwordHash, passwordSalt) = _passwordService.GeneratePasswordHashAndSalt(password);
-        var (accessToken, expirationAccessTokenTime) = _tokenService.GenerateAccessToken(email, username, userRole);
+        var (accessToken, expirationAccessTokenTime) = _tokenService.GenerateAccessToken(userId, email, username, userRole);
         var (refreshToken, expirationRefreshTokenTime) = _tokenService.GenerateRefreshToken();
 
         var user = new User
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = userId,
             Username = username,
             Email = email,
             PasswordHash = passwordHash,
@@ -49,7 +50,8 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, TokenResponse
         };
 
         await _userRepository.CreateUser(user);
-
-        return new TokenResponse(accessToken, expirationAccessTokenTime, refreshToken, expirationRefreshTokenTime);
+        
+        return new TokenResponse(accessToken, expirationAccessTokenTime,
+            refreshToken, expirationRefreshTokenTime);
     }
 }

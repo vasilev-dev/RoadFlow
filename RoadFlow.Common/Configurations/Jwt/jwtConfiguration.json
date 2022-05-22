@@ -1,5 +1,4 @@
 ﻿{
-  "JWT": {
     "ValidateIssuerSigningKey": true,
     "ValidateIssuer": true,
     "ValidIssuer": "RoadFlow.Identity.API",
@@ -7,13 +6,6 @@
     "ValidAudience": "RoadFlow.Client",
     "RequireExpirationTime": true,
     "ValidateLifetime": true,
-    "AccessTokenLifetimeInMinutes": 30,
+    "AccessTokenLifetimeInMinutes": 15,
     "RefreshTokenLifetimeInDays": 365
-  },
-  "MongoDB": {
-    "DatabaseName": "RoadFlowDB"
-  },
-  "AllowedClientOrigins": [
-    "http://localhost:3000"
-  ]
 }

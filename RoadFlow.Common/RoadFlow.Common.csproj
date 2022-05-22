@@ -35,4 +35,13 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Configurations\MongoDb\mongoDbConfiguration.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Configurations\Jwt\jwtConfiguration.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

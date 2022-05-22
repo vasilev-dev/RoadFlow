@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using RoadFlow.Common.Configurations;
+using RoadFlow.Common.Configurations.Jwt;
 
 namespace RoadFlow.Identity.Core.Domains.Token;
 
@@ -16,13 +17,14 @@ public class TokenService : ITokenService
         _jwtConfiguration = jwtConfiguration;
     }
     
-    public (string accessToken, DateTime expirationAccessTokenTime) GenerateAccessToken(string email, string username, string role)
+    public (string accessToken, DateTime expirationAccessTokenTime) GenerateAccessToken(string id, string email, string username, string role)
     {
         var authClaims = new List<Claim>
         {
-            new(ClaimTypes.Email, email),
-            new(ClaimTypes.Name, username),
-            new(ClaimTypes.Role, role)
+            new("id", id),
+            new("email", email),
+            new("username", username),
+            new("role", role)
         };
         
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.IssuerSigningKey));

@@ -10,7 +10,6 @@ using RoadFlow.Identity.Core.Domains.User.SignUp;
 namespace RoadFlow.Identity.API.Controllers;
 
 [ApiController]
-[Route("api/user")]
 public class IdentityController : ControllerBase
 {
     private readonly IMediator _mediator;

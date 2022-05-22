@@ -1,0 +1,35 @@
+﻿{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/WeatherForecast/GetWeatherForecast",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "5002"
+                }
+            ],
+            "UpstreamPathTemplate": "/weather",
+            "UpstreamHttpMethod": ["Get"]
+        },
+        {
+            "DownstreamPathTemplate": "/WeatherForecast/GetWeatherForecast2",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": "5002"
+                }
+            ],
+            "UpstreamPathTemplate": "/weather2",
+            "UpstreamHttpMethod": ["Get"],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "Bearer",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "https://localhost:5000"
+    }
+}

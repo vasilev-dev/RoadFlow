@@ -1,9 +1,8 @@
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using RoadFlow.Common.Auth;
+using RoadFlow.Common.Authentication;
 using RoadFlow.Common.Configurations;
+using RoadFlow.Common.Configurations.MongoDb;
 using RoadFlow.Common.Errors;
 using RoadFlow.Common.Mediator;
 using RoadFlow.Data;
@@ -13,62 +12,34 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.SetupApplicationConfigurations();
-var (
-    jwtConfiguration, 
-    googleAuthConfiguration,
-    mongoDbConfiguration, 
-    allowedClientOrigins) = SharedConfigurationBuilder.BindAndValidate(builder.Configuration);
+builder.AddRoadFlowApplicationConfigurations();
 
-builder.Services.AddSingleton(jwtConfiguration);
-builder.Services.AddSingleton(googleAuthConfiguration);
-builder.Services.AddSingleton(mongoDbConfiguration);
+builder.Services.AddApplicationAuthentication();
 
+// todo вынести в отдельный класс в common project (передавать Assembly project name)
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .WriteTo.Console()
     .WriteTo.File("../logs/RoadFlowIdentityAPI.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
-
 builder.Services.AddSingleton(Log.Logger);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("RoadFlowCorsPolicy", configurePolicy =>
-    {
-        configurePolicy
-            .WithOrigins(allowedClientOrigins)
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/google/sign-in";
-    })
-    .AddAuthenticationByJwtBearer(jwtConfiguration)
-    .AddAuthenticationByGoogleOAuth(googleAuthConfiguration);
-
-builder.Services.AddSingleton<IMongoContext>(new MongoContext(mongoDbConfiguration));
+// todo вынести в отдельный класс в common project
+builder.Services.AddSingleton<IMongoContext>(services => new MongoContext(services.GetService<MongoDbConfiguration>()!));
+// builder.Services.AddSingleton<IMongoContext>(new MongoContext(mongoDbConfiguration));
 
 builder.Services.RegisterAppRepositories();
 builder.Services.RegisterAppServices();
 
 builder.Services.AddValidatorsFromAssembly(IndentityCoreProjectAssembly.Assembly);
 
+// todo вынести в отдельный класс в common project
 builder.Services.AddMediatR(IndentityCoreProjectAssembly.Assembly);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PipelineBehavior<,>));
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddEndpointsApiExplorer(); // todo что это?
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -78,8 +49,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("RoadFlowCorsPolicy");
 
 app.UseHttpsRedirection();
 

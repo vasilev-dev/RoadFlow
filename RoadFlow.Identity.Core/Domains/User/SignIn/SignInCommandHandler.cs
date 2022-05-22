@@ -24,17 +24,23 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
     
     public async Task<TokenResponse> Handle(SignInCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByEmail(request.Email);
+        var (email, password) = request;
+        
+        var user = await _userRepository.GetByEmail(email);
 
         if (user == null)
             throw new ClientException(ClientErrorCode.UserDoesNotExist);
 
-        if (!_passwordService.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
+        if (!_passwordService.VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
             throw new ClientException(ClientErrorCode.WrongPassword);
 
-        var (accessToken, expirationAccessTokenTime) = _tokenService.GenerateAccessToken(user.Email, user.Username, user.Role);
+        var (accessToken, expirationAccessTokenTime) = 
+            _tokenService.GenerateAccessToken(user.Id, user.Email, user.Username, user.Role);
         var (refreshToken, expirationRefreshTokenTime) = _tokenService.GenerateRefreshToken();
+        
+        // todo не обновляется refresh token в бд
 
-        return new TokenResponse(accessToken, expirationAccessTokenTime, refreshToken, expirationRefreshTokenTime);
+        return new TokenResponse(accessToken, expirationAccessTokenTime, 
+            refreshToken, expirationRefreshTokenTime);
     }
 }

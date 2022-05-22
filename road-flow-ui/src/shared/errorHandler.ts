@@ -1,9 +1,9 @@
-import axios, {AxiosError} from "axios";
-import {ClientErrorMessage} from "../api/clientErrors";
-import {UseToastOptions} from "@chakra-ui/react";
+import axios, {AxiosError} from 'axios';
+import {ClientErrorMessage} from '../api/clientErrors';
+import {UseToastOptions} from '@chakra-ui/react';
 
 export function handleClientError(error: unknown, handleFn: (errorMessage: string) => void) {
-    const somethingWentWrongMessage = 'Something went wrong 🥺'
+    const somethingWentWrongMessage = 'Something went wrong 🥺';
 
     if (!axios.isAxiosError(error)) {
         handleFn(somethingWentWrongMessage);
@@ -11,6 +11,7 @@ export function handleClientError(error: unknown, handleFn: (errorMessage: strin
     }
 
     const axiosError = error as AxiosError;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const errorCode = axiosError.response?.data?.errorCode;
 
@@ -36,6 +37,6 @@ export function getToastDefaultParams(errorMessage: string): UseToastOptions {
         description: errorMessage,
         status: 'error',
         duration: 9000,
-        isClosable: true
-    }
+        isClosable: true,
+    };
 }
