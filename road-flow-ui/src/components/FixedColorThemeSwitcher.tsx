@@ -19,7 +19,7 @@ const FixedColorThemeSwitcher: React.FC = () => {
     };
 
     return (
-        <Box pos={'fixed'} top={0} right={1} p={3}>
+        <Box pos={'fixed'} top={0} right={1} py={[2, 6]} px={2}>
             <IconButton
                 icon={getIcon()}
                 aria-label={'Switch color theme'}
