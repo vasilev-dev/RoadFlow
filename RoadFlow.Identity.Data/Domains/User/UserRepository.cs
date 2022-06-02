@@ -23,6 +23,11 @@ public class UserRepository : IUserRepository
         return await _userCollection.Find(user => user.Email == email).AnyAsync();
     }
 
+    public async Task<bool> ExistsWithUsername(string username)
+    {
+        return await _userCollection.Find(user => user.Username == username).AnyAsync();
+    }
+
     public async Task<Core.Domains.User.User> GetByEmail(string email)
     {
         return await _userCollection.Find(user => user.Email == email).FirstOrDefaultAsync();

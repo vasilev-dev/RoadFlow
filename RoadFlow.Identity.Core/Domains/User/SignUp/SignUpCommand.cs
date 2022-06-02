@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RoadFlow.Identity.Core.Domains.User.Common;
-using RoadFlow.Identity.Core.Domains.User.SignIn;
 
 namespace RoadFlow.Identity.Core.Domains.User.SignUp;
 

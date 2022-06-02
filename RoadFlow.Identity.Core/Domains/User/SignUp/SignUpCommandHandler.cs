@@ -30,6 +30,9 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, TokenResponse
         if (await _userRepository.ExistsWithEmail(email))
             throw new ClientException(ClientErrorCode.UserWithEmailAlreadyExistsError);
 
+        if (await _userRepository.ExistsWithEmail(username))
+            throw new ClientException(ClientErrorCode.UserWithUsernameAlreadyExistsError);
+
         const string userRole = Role.User;
         var userId = Guid.NewGuid().ToString();
 

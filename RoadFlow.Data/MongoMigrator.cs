@@ -26,9 +26,11 @@ public static class MongoMigrator
     private static void RunUserCollectionMigrations(IMongoDatabase database)
     {
         var collection = database.GetCollection<User>("Users");
-
+        
         var emailIndex = Builders<User>.IndexKeys.Ascending(user => user.Email);
-
+        var usernameIndex = Builders<User>.IndexKeys.Ascending(user => user.Username);
+        
         collection.Indexes.CreateOne(new CreateIndexModel<User>(emailIndex, new CreateIndexOptions { Unique = true }));
+        collection.Indexes.CreateOne(new CreateIndexModel<User>(usernameIndex, new CreateIndexOptions { Unique = true }));
     }
 }
