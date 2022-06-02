@@ -3,11 +3,11 @@ import AnimatedCar from '../../assets/animated-car.gif';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import LightSpeed from 'react-reveal/LightSpeed';
-import HaveAnAccount from './HaveAnAccount';
 import SignUpForm from './SignUpForm';
-import SignUpWith from './SignUpWith';
+import SignWith from '../../components/SignWith';
 import React from 'react';
 import FixedColorThemeSwitcher from '../../components/FixedColorThemeSwitcher';
+import LinkWithDescription from '../../components/LinkWithDescription';
 
 const SignUpPage: React.FC = () => {
     return (
@@ -18,14 +18,14 @@ const SignUpPage: React.FC = () => {
                 <GridItem minH={'100vh'} py={[4, 8]} px={[7, 10, 20]} colSpan={[2, 1]} order={[2, 1]}>
                     <Flex flexDir={'column'} h={'100%'}>
                         <Box flexGrow={0}>
-                            <HaveAnAccount />
+                            <LinkWithDescription title={'Sign In'} description={'Have an account?'} to={'/sign-in'} />
                         </Box>
                         <Flex flexGrow={1} py={[2, 4]} flexDir={'column'} justifyContent={'center'}>
                             <SignUpForm />
                         </Flex>
                         <Box>
                             <Divider my={4} />
-                            <SignUpWith />
+                            <SignWith isSignIn={false} />
                         </Box>
                     </Flex>
                 </GridItem>
@@ -41,8 +41,8 @@ const SignUpPage: React.FC = () => {
                 >
                     <Flex flexDir={'column'} justifyContent={'center'} h={'100%'}>
                         <LightSpeed left>
-                            <Heading textColor={'white'}>Welcome to RoadFlow</Heading>
-                            <Text py={5} fontWeight={200} color={'gray.200'}>
+                            <Heading textColor={'white'}>Welcome 👋</Heading>
+                            <Text py={5} fontWeight={200}>
                                 Service for creating roadmaps
                             </Text>
                         </LightSpeed>

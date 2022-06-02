@@ -1,4 +1,4 @@
-import {Box, Button, Heading, useToast} from '@chakra-ui/react';
+import {Box, Button, Flex, Heading, Text, useToast} from '@chakra-ui/react';
 import {Form, Formik} from 'formik';
 import TextField from '../../components/TextField';
 import {MdOutlineAlternateEmail, MdPassword} from 'react-icons/md';
@@ -56,7 +56,14 @@ const SignUpForm: React.FC = () => {
 
     return (
         <>
-            <Heading>Sign up</Heading>
+            <Flex flexDir={'row'}>
+                <Heading>
+                    Sign up&nbsp;
+                    <Text color={'blue.600'} display={'inline-block'}>
+                        RoadFlow
+                    </Text>
+                </Heading>
+            </Flex>
 
             <Box mt={4}>
                 <Formik
@@ -79,7 +86,7 @@ const SignUpForm: React.FC = () => {
                                 type={'text'}
                                 label={'Username'}
                                 name='username'
-                                placeholder='Ryan Gosling'
+                                placeholder='RyanGosling'
                                 mb={2}
                                 icon={AiOutlineUser}
                             />
