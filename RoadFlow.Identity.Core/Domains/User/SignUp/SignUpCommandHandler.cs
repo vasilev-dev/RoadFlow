@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using RoadFlow.Common.Domains.User;
 using RoadFlow.Common.Errors;
-using RoadFlow.Identity.Core.Domains.Password;
 using RoadFlow.Identity.Core.Domains.Token;
 using RoadFlow.Identity.Core.Domains.User.Common;
+using RoadFlow.Identity.Core.Domains.User.Common.Password;
 
 namespace RoadFlow.Identity.Core.Domains.User.SignUp;
 

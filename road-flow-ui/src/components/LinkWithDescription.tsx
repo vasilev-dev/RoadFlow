@@ -6,7 +6,7 @@ const LinkWithDescription: React.FC<LinkWithDescriptionProps> = ({title, descrip
     return (
         <Flex dir={'row'} gap={2}>
             <Text color={'gray.400'}>{description}</Text>
-            <Link as={ReachLink} to={to} color={'#3182ce'} fontWeight={600}>
+            <Link as={ReachLink} to={to} textColor={'blue.500'} fontWeight={600}>
                 {title}
             </Link>
         </Flex>

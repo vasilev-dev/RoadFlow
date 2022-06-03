@@ -9,6 +9,8 @@ public class UsernameValidator : AbstractValidator<string>
         RuleFor(x => x)
             .NotEmpty()
             .MinimumLength(3)
-            .MaximumLength(32);
+            .MaximumLength(32)
+            .Matches("^[A-Za-z]").WithMessage("Username must starts with latin letter")
+            .Matches("[A-Za-z0-9_]$").WithMessage("Username must contain only latin letters, digits and underscore");
     }
 }

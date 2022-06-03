@@ -1,5 +1,5 @@
 using FluentAssertions;
-using RoadFlow.Identity.Core.Domains.Password;
+using RoadFlow.Identity.Core.Domains.User.Common.Password;
 using Xunit;
 
 namespace RoadFlow.Identity.UnitTests;

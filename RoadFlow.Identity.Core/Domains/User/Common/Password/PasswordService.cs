@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace RoadFlow.Identity.Core.Domains.Password;
+namespace RoadFlow.Identity.Core.Domains.User.Common.Password;
 
 public class PasswordService : IPasswordService
 {

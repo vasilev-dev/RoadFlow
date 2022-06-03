@@ -39,9 +39,9 @@ const SignUpPage: React.FC = () => {
                     px={[7, 10, 20]}
                     textAlign={'center'}
                 >
-                    <Flex flexDir={'column'} justifyContent={'center'} h={'100%'}>
+                    <Flex flexDir={'column'} justifyContent={'center'} h={'100%'} textColor={'white'}>
                         <LightSpeed left>
-                            <Heading textColor={'white'}>Welcome 👋</Heading>
+                            <Heading>Welcome 👋</Heading>
                             <Text py={5} fontWeight={200}>
                                 Service for creating roadmaps
                             </Text>

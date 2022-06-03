@@ -1,4 +1,4 @@
-﻿namespace RoadFlow.Identity.Core.Domains.Password;
+﻿namespace RoadFlow.Identity.Core.Domains.User.Common.Password;
 
 public interface IPasswordService
 {

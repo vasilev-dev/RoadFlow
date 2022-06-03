@@ -6,6 +6,8 @@ import TextField from '../../components/TextField';
 import {MdPassword} from 'react-icons/md';
 import {AiOutlineUser} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
+import usernameValidator from '../../shared/validators/usernameValidator';
+import passwordValidator from '../../shared/validators/passwordValidator';
 
 const SignInForm: React.FC = () => {
     const toast = useToast();
@@ -24,8 +26,8 @@ const SignInForm: React.FC = () => {
         <>
             <Flex flexDir={'row'}>
                 <Heading>
-                    Sign In&nbsp;
-                    <Text color={'blue.600'} display={'inline-block'}>
+                    Sign in&nbsp;
+                    <Text color={'blue.500'} display={'inline-block'}>
                         RoadFlow
                     </Text>
                 </Heading>
@@ -62,16 +64,8 @@ const SignInForm: React.FC = () => {
 };
 
 const validationScheme = yup.object({
-    username: yup
-        .string()
-        .required('Username is required')
-        .min(3, 'Minimum length of username is 3 characters')
-        .max(32, 'Maximum length of username is 32 characters'),
-
-    password: yup
-        .string()
-        .required('Password is required')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/, 'Invalid password'),
+    username: usernameValidator,
+    password: passwordValidator,
 });
 
 type SignInFormValue = {

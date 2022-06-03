@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using FluentValidation;
 
-namespace RoadFlow.Identity.Core.Domains.Password;
+namespace RoadFlow.Identity.Core.Domains.User.Common.Password;
 
 public class PasswordValidator : AbstractValidator<string>
 {

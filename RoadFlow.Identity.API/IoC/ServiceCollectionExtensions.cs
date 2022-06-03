@@ -1,6 +1,6 @@
-﻿using RoadFlow.Identity.Core.Domains.Password;
-using RoadFlow.Identity.Core.Domains.Token;
+﻿using RoadFlow.Identity.Core.Domains.Token;
 using RoadFlow.Identity.Core.Domains.User;
+using RoadFlow.Identity.Core.Domains.User.Common.Password;
 using RoadFlow.Identity.Data.Domains.User;
 
 namespace RoadFlow.Identity.API.IoC;

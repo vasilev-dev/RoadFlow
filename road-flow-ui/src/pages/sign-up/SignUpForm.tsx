@@ -10,6 +10,8 @@ import {observer} from 'mobx-react-lite';
 import AuthApi from '../../api/authApi';
 import JwtTokenStore from '../../stores/jwtTokenStore';
 import {useNavigate} from 'react-router-dom';
+import usernameValidator from '../../shared/validators/usernameValidator';
+import passwordValidator from '../../shared/validators/passwordValidator';
 
 const SignUpForm: React.FC = () => {
     const toast = useToast();
@@ -59,7 +61,7 @@ const SignUpForm: React.FC = () => {
             <Flex flexDir={'row'}>
                 <Heading>
                     Sign up&nbsp;
-                    <Text color={'blue.600'} display={'inline-block'}>
+                    <Text color={'blue.500'} display={'inline-block'}>
                         RoadFlow
                     </Text>
                 </Heading>
@@ -107,21 +109,9 @@ const SignUpForm: React.FC = () => {
 const validationScheme = yup.object({
     email: yup.string().required('Email is required').email('Invalid email'),
 
-    username: yup
-        .string()
-        .required('Username is required')
-        .min(3, 'Minimum length of username is 3 characters')
-        .max(32, 'Maximum length of username is 32 characters'),
+    username: usernameValidator,
 
-    password: yup
-        .string()
-        .required('Password is required')
-        .min(8, 'Minimum length of password is 8 characters')
-        .max(32, 'Maximum length of password is 32 characters')
-        .matches(/[A-Z]+/, 'Password must contains at a least one uppercase letter')
-        .matches(/[a-z]+/, 'Password must contains at a least one lowercase letter')
-        .matches(/\d+/, 'Password must contains at a least one digit')
-        .matches(/[@$!%*?&]+/, 'Password must contains at a least one special symbol'),
+    password: passwordValidator,
 
     confirmPassword: yup
         .string()
