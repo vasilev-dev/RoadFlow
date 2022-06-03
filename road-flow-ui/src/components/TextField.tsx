@@ -18,7 +18,6 @@ type TextFieldProps = InputProps & {
 };
 
 const TextField: React.FC<TextFieldProps> = ({label, icon, ...props}) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const [field, meta] = useField(props);
     const {m, mt, mr, mb, ml, p, pt, pr, pb, pl, ...inputProps} = props;

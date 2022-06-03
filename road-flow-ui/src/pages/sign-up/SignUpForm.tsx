@@ -57,7 +57,7 @@ const SignUpForm: React.FC = () => {
     };
 
     return (
-        <>
+        <Flex flexDir={'column'}>
             <Flex flexDir={'row'}>
                 <Heading>
                     Sign up&nbsp;
@@ -102,7 +102,7 @@ const SignUpForm: React.FC = () => {
                     )}
                 </Formik>
             </Box>
-        </>
+        </Flex>
     );
 };
 

@@ -1,20 +1,40 @@
 import React from 'react';
 import {Box, IconButton, useColorMode} from '@chakra-ui/react';
 import {BsMoonFill, BsFillSunFill} from 'react-icons/bs';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import Flip from 'react-reveal/Flip';
+import MotionBox from './MotionBox';
 
 const FixedColorThemeSwitcher: React.FC = () => {
     const {colorMode, toggleColorMode} = useColorMode();
 
     const getIcon = (): JSX.Element => {
-        const icon = colorMode === 'dark' ? <BsFillSunFill /> : <BsMoonFill />;
+        const darkColorMode = colorMode === 'dark';
+
+        const icon = darkColorMode ? <BsFillSunFill /> : <BsMoonFill />;
+
+        const sunAnimation = {
+            opacity: [1, 0],
+            y: [0, 25],
+        };
+
+        const moonAnimation = {
+            opacity: [0, 1],
+            y: [-25, 0],
+        };
+
+        // todo
+        // https://stackoverflow.com/questions/63864386/react-framer-motion-onclick-activate-only-the-animation
+        const animation = darkColorMode ? sunAnimation : moonAnimation;
 
         return (
-            <Flip duration={1000} left spy={colorMode}>
-                {icon}
-            </Flip>
+            // <MotionBox
+            //     onTap={toggleColorMode}
+            //     animate={animation}
+            //     // @ts-ignore
+            //     transition={{ease: 'easeIn', duration: 1.5}}
+            // >
+            //     {icon}
+            // </MotionBox>
+            <MotionBox>{icon}</MotionBox>
         );
     };
 
