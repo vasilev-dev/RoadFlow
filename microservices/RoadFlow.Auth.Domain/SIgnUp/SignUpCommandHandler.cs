@@ -26,13 +26,13 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
 
     public async Task<Unit> Handle(SignUpCommand request, CancellationToken cancellationToken)
     {
-        // if (_userManager.Users.Any(u => u.Email == request.Email))
-        //     throw new ClientException(ClientErrorCode.EmailAlreadyIsUser, 
-        //         $"Email {request.Email} already is used");
-        //
-        // if (_userManager.Users.Any(u => u.UserName == request.Username))
-        //     throw new ClientException(ClientErrorCode.UsernameAlreadyIsUsed,
-        //         $"Username {request.Username} already is used");
+        if (_userManager.Users.Any(u => u.Email == request.Email))
+            throw new ClientException(ClientErrorCode.EmailAlreadyIsUser, 
+                $"Email {request.Email} already is used");
+        
+        if (_userManager.Users.Any(u => u.UserName == request.Username))
+            throw new ClientException(ClientErrorCode.UsernameAlreadyIsUsed,
+                $"Username {request.Username} already is used");
 
         var userId = Guid.NewGuid().ToString();
 
