@@ -3,6 +3,7 @@ using MediatR;
 using RoadFlow.Auth.Common.Configurations;
 using RoadFlow.Common.Configurations;
 using RoadFlow.Common.Exceptions;
+using Serilog;
 using TokenResponse = RoadFlow.Auth.Domain.Common.Responses.TokenResponse;
 
 namespace RoadFlow.Auth.Domain.RefreshToken;
@@ -11,16 +12,20 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, T
 {
     private readonly SharedConfiguration _sharedConfiguration;
     private readonly IdentityServerConfiguration _identityServerConfiguration;
+    private readonly ILogger _logger;
 
     public RefreshTokenCommandHandler(
         SharedConfiguration sharedConfiguration,
-        IdentityServerConfiguration identityServerConfiguration)
+        IdentityServerConfiguration identityServerConfiguration,
+        ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(sharedConfiguration);
         ArgumentNullException.ThrowIfNull(identityServerConfiguration);
+        ArgumentNullException.ThrowIfNull(logger);
         
         _sharedConfiguration = sharedConfiguration;
         _identityServerConfiguration = identityServerConfiguration;
+        _logger = logger;
     }
     
     public async Task<TokenResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -43,9 +48,12 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, T
             }
         }, cancellationToken);
 
-        if (tokenResponse.IsError)
-            throw new ServerException("Cannot refresh token"); // todo log
-
+        if (!tokenResponse.IsError)
+        {
+            _logger.Error("Cannot refresh token: {@Response}", tokenResponse);
+            throw new ServerException("Cannot refresh token");
+        }
+        
         return new TokenResponse(
             tokenResponse.AccessToken,
             tokenResponse.RefreshToken,
