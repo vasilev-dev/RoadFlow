@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using RoadFlow.Common.Exceptions;
+using RoadFlow.Common.Extensions;
 using RoadFlow.Seedwork.ApplicationUser;
 
 namespace RoadFlow.Auth.IdentityServer;
@@ -21,11 +19,8 @@ public class ProfileService : IProfileService
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory)
     {
-        ArgumentNullException.ThrowIfNull(userManager);
-        ArgumentNullException.ThrowIfNull(claimsFactory);
-        
-        _userManager = userManager;
-        _claimsFactory = claimsFactory;
+        _userManager = ArgumentNullValidator.ThrowIfNullOrReturn(userManager);
+        _claimsFactory = ArgumentNullValidator.ThrowIfNullOrReturn(claimsFactory);
     }
 
     public async Task GetProfileDataAsync(ProfileDataRequestContext context)

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using RoadFlow.Common.Exceptions;
+using RoadFlow.Common.Extensions;
 using RoadFlow.Seedwork.ApplicationUser;
 using Serilog;
 
@@ -17,11 +18,8 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
         UserManager<ApplicationUser> userManager,
         ILogger logger)
     {
-        ArgumentNullException.ThrowIfNull(userManager);
-        ArgumentNullException.ThrowIfNull(logger);
-
-        _userManager = userManager;
-        _logger = logger;
+        _userManager = ArgumentNullValidator.ThrowIfNullOrReturn(userManager);
+        _logger = ArgumentNullValidator.ThrowIfNullOrReturn(logger);
     }
 
     public async Task<Unit> Handle(SignUpCommand request, CancellationToken cancellationToken)

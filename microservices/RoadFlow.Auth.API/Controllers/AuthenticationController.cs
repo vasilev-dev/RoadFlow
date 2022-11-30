@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RoadFlow.Auth.Domain.RefreshToken;
 using RoadFlow.Auth.Domain.SignIn;
 using RoadFlow.Auth.Domain.SIgnUp;
+using RoadFlow.Common.Extensions;
 
 namespace RoadFlow.Auth.API.Controllers;
 
@@ -14,9 +15,7 @@ public class AuthenticationController : ControllerBase
 
     public AuthenticationController(IMediator mediator)
     {
-        ArgumentNullException.ThrowIfNull(mediator);
-        
-        _mediator = mediator;
+        _mediator = ArgumentNullValidator.ThrowIfNullOrReturn(mediator);
     }
     
     [HttpPost]

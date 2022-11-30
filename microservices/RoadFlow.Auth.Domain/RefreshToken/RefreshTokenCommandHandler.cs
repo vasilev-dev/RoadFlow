@@ -3,6 +3,7 @@ using MediatR;
 using RoadFlow.Auth.Common.Configurations;
 using RoadFlow.Common.Configurations;
 using RoadFlow.Common.Exceptions;
+using RoadFlow.Common.Extensions;
 using Serilog;
 using TokenResponse = RoadFlow.Auth.Domain.Common.Responses.TokenResponse;
 
@@ -19,13 +20,9 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, T
         IdentityServerConfiguration identityServerConfiguration,
         ILogger logger)
     {
-        ArgumentNullException.ThrowIfNull(sharedConfiguration);
-        ArgumentNullException.ThrowIfNull(identityServerConfiguration);
-        ArgumentNullException.ThrowIfNull(logger);
-        
-        _sharedConfiguration = sharedConfiguration;
-        _identityServerConfiguration = identityServerConfiguration;
-        _logger = logger;
+        _sharedConfiguration = ArgumentNullValidator.ThrowIfNullOrReturn(sharedConfiguration);
+        _identityServerConfiguration = ArgumentNullValidator.ThrowIfNullOrReturn(identityServerConfiguration);
+        _logger =  ArgumentNullValidator.ThrowIfNullOrReturn(logger);
     }
     
     public async Task<TokenResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
