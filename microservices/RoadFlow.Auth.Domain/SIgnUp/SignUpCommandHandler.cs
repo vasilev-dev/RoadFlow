@@ -1,30 +1,38 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Immutable;
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using RoadFlow.Common.Exceptions;
 using RoadFlow.Seedwork.ApplicationUser;
+using Serilog;
 
 namespace RoadFlow.Auth.Domain.SIgnUp;
 
 public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ILogger _logger;
 
     public SignUpCommandHandler(
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(userManager);
+        ArgumentNullException.ThrowIfNull(logger);
 
         _userManager = userManager;
+        _logger = logger;
     }
 
     public async Task<Unit> Handle(SignUpCommand request, CancellationToken cancellationToken)
     {
-        if (_userManager.Users.Any(u => u.Email == request.Email))
-            throw new ClientException("1");
-
-        if (_userManager.Users.Any(u => u.UserName == request.Username))
-            throw new ClientException("2");
+        // if (_userManager.Users.Any(u => u.Email == request.Email))
+        //     throw new ClientException(ClientErrorCode.EmailAlreadyIsUser, 
+        //         $"Email {request.Email} already is used");
+        //
+        // if (_userManager.Users.Any(u => u.UserName == request.Username))
+        //     throw new ClientException(ClientErrorCode.UsernameAlreadyIsUsed,
+        //         $"Username {request.Username} already is used");
 
         var userId = Guid.NewGuid().ToString();
 
@@ -40,9 +48,11 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
         var result = await _userManager.CreateAsync(user, request.Password);
 
         if (!result.Succeeded)
-            throw new ServerException("Cannot create user"); // todo log detail
+        {
+            _logger.Error("Cannot create user: {@Errors}", result.Errors.ToImmutableList());
+            throw new ServerException("Cannot create user");
+        }
 
-        // await SaveUserRole(user, ApplicationRoles.Default);
         await SaveUserClaims(user, ApplicationRoles.Default);
 
         return Unit.Value;

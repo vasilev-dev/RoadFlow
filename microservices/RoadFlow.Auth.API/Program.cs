@@ -1,9 +1,11 @@
 using AspNetCore.Identity.Mongo;
 using FluentValidation;
+using RoadFlow.Auth.API;
 using RoadFlow.Auth.Common.Configurations;
 using RoadFlow.Auth.Domain;
 using RoadFlow.Auth.IdentityServer;
 using RoadFlow.Common.Extensions;
+using RoadFlow.Common.Middlewares;
 using RoadFlow.Seedwork.ApplicationUser;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,7 @@ var identityServerConfiguration = new IdentityServerConfiguration();
 builder.Configuration.GetSection("IdentityServerSettings").Bind(identityServerConfiguration);
 builder.Services.AddSingleton(identityServerConfiguration);
 
+builder.Services.AddRoadFlowLogger(RoadFlowAuthAPI.Assembly);
 builder.Services.AddRoadFlowAuthentication(sharedConfiguration.IdentitySettings);
 builder.Services.AddValidatorsFromAssembly(RoadFlowAuthDomain.Assembly);
 builder.Services.AddRoadFlowMediatR(RoadFlowAuthDomain.Assembly);
@@ -46,6 +49,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

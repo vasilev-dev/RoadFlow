@@ -4,7 +4,7 @@ public class ClientException : Exception
 {
     public string ErrorCode { get; }
     
-    public ClientException(string errorCode, string? message = null) : base(message)
+    public ClientException(string errorCode, string message) : base(message)
     {
         ErrorCode = errorCode;
     }

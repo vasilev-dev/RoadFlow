@@ -3,6 +3,7 @@ using MediatR;
 using RoadFlow.Auth.Common.Configurations;
 using RoadFlow.Common.Configurations;
 using RoadFlow.Common.Exceptions;
+using Serilog;
 using TokenResponse = RoadFlow.Auth.Domain.Common.Responses.TokenResponse;
 
 namespace RoadFlow.Auth.Domain.SignIn;
@@ -11,16 +12,20 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
 {
     private readonly SharedConfiguration _sharedConfiguration;
     private readonly IdentityServerConfiguration _identityServerConfiguration;
+    private readonly ILogger _logger;
 
     public SignInCommandHandler(
         SharedConfiguration sharedConfiguration,
-        IdentityServerConfiguration identityServerConfiguration)
+        IdentityServerConfiguration identityServerConfiguration,
+        ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(sharedConfiguration);
         ArgumentNullException.ThrowIfNull(identityServerConfiguration);
-        
+        ArgumentNullException.ThrowIfNull(logger);
+
         _sharedConfiguration = sharedConfiguration;
         _identityServerConfiguration = identityServerConfiguration;
+        _logger = logger;
     }
     
     public async Task<TokenResponse> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -45,7 +50,10 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
         }, cancellationToken);
 
         if (tokenResponse.IsError)
-            throw new ClientException("todo", "todo"); // todo log
+        {
+            _logger.Warning("Cannot create token for username {Username}: {@Response}", request.Username, tokenResponse);
+            throw new ClientException(ClientErrorCode.WrongEmailOrPassword, $"Cannot create token for username {request.Username}");
+        }
         
         return new TokenResponse(
             tokenResponse.AccessToken,
