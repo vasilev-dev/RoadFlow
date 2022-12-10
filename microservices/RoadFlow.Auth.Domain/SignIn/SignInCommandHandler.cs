@@ -45,11 +45,11 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
                 {"password", request.Password},
             }
         }, cancellationToken);
-
+        
         if (tokenResponse.IsError)
         {
             _logger.Warning("Cannot create token for username {Username}: {@Response}", request.Username, tokenResponse);
-            throw new ClientException(ClientErrorCode.WrongEmailOrPassword, $"Cannot create token for username {request.Username}");
+            throw new ClientException(ClientErrorCode.WrongEmailOrPassword, $"Wrong username or password");
         }
         
         return new TokenResponse(

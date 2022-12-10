@@ -11,6 +11,18 @@ builder.Configuration
     .AddJsonFile("ocelot.json", true)
     .AddJsonFile($"ocelot.{environment.EnvironmentName}.json", true);
 
+var reactClientUrl = builder.Configuration.GetSection("ReactClientUrl").Value;
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(reactClientUrl)
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -27,6 +39,8 @@ builder.Services.AddOcelot(builder.Configuration);
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 await app.UseOcelot();
 

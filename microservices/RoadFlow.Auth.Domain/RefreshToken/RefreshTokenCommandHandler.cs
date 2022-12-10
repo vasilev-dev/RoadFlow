@@ -45,7 +45,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, T
             }
         }, cancellationToken);
 
-        if (!tokenResponse.IsError)
+        if (tokenResponse.IsError)
         {
             _logger.Error("Cannot refresh token: {@Response}", tokenResponse);
             throw new ServerException("Cannot refresh token");

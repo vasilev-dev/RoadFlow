@@ -23,9 +23,9 @@ public class AuthenticationController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
     {
-        var response = await _mediator.Send(command);
+        await _mediator.Send(command);
 
-        return Ok(response);
+        return Ok();
     }
     
     [HttpPost]
@@ -40,7 +40,7 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost]
     [Route("refresh-token")]
-    [Authorize]
+    [AllowAnonymous]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
     {
         var response = await _mediator.Send(command);

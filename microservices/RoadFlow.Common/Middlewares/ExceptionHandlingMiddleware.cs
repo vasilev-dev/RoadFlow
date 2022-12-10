@@ -40,7 +40,7 @@ public class ExceptionHandlingMiddleware
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
                     errorCode = clientException.ErrorCode,
-                    message = clientException.Message
+                    errorMessage = clientException.Message
                 }));
                 _logger.Warning(clientException, clientException.Message);
                 break;
@@ -63,7 +63,8 @@ public class ExceptionHandlingMiddleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
-                    errorCode = "InternalError"
+                    errorCode = "InternalError",
+                    errorMessage = "Something went wrong"
                 }));
                 _logger.Error(internalException, "Unhandled exception: {message}", 
                     internalException.Message);
