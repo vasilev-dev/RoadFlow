@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using MediatR;
 using RoadFlow.Auth.Common.Configurations;
+using RoadFlow.Auth.Common.Extensions;
 using RoadFlow.Common.Configurations;
 using RoadFlow.Common.Exceptions;
 using RoadFlow.Common.Extensions;
@@ -29,7 +30,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
     {
         var client = new HttpClient();
         var disco = await client.GetDiscoveryDocumentAsync(
-            _sharedConfiguration.IdentitySettings.Authority, cancellationToken);
+            _sharedConfiguration.IdentityConfiguration.Authority, cancellationToken);
 
         if (disco == null || disco.IsError)
             throw new ServerException($"Cannot connect to Identity Server");
@@ -45,12 +46,8 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
                 {"password", request.Password},
             }
         }, cancellationToken);
-        
-        if (tokenResponse.IsError)
-        {
-            _logger.Warning("Cannot create token for username {Username}: {@Response}", request.Username, tokenResponse);
-            throw new ClientException(ClientErrorCode.WrongEmailOrPassword, $"Wrong username or password");
-        }
+
+        ValidateAndThrowTokenResponse(tokenResponse, request.Username);
         
         return new TokenResponse(
             tokenResponse.AccessToken,
@@ -58,5 +55,29 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, TokenResponse
             DateTime.Now.AddSeconds(tokenResponse.ExpiresIn),
             DateTime.Now.AddDays(30)
         );
+    }
+    
+    private void ValidateAndThrowTokenResponse(IdentityModel.Client.TokenResponse? tokenResponse, string username)
+    {
+        if (tokenResponse == null)
+            throw new ServerException("Couldn't get token response");
+        
+        if (tokenResponse.WrongEmailOrPassword())
+        {
+            _logger.Information("Cannot create token for username {Username}: Wrong username or password", username);
+            throw new UnauthorizedException(ErrorCode.WrongUsernameOrPassword, "Username or password is wrong");
+        }
+        
+        if (tokenResponse.UserNotActivated())
+        {
+            _logger.Warning("Cannot create token for username {Username}: User not activated", username);
+            throw new UnauthorizedException(ErrorCode.UserNotActivated, "User not activated");
+        }
+        
+        if (tokenResponse.IsError)
+        {
+            _logger.Error("Unhandled token response error: {@Response}", tokenResponse);
+            throw new ServerException("Unhandled token response error");
+        }
     }
 }

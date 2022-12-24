@@ -3,7 +3,6 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using RoadFlow.Common.Configurations;
 using RoadFlow.Common.MediatR;
@@ -43,7 +42,7 @@ public static class ServiceCollectionExtensions
     {
         serviceCollection.AddMediatR(assemblies);
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        // serviceCollection.AddTransient(typeof(IRequestPostProcessor<,>), typeof(ValidationBehavior<,>));
+        serviceCollection.AddTransient(typeof(IRequestPostProcessor<,>), typeof(EventSenderPostProcessor<,>));
 
         return serviceCollection;
     }

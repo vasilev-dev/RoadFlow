@@ -1,5 +1,12 @@
 ﻿{
-    "IdentitySettings": {
+    "IdentityConfiguration": {
         "Authority": "https://localhost:5002"
+    },
+    "RabbitMQConfiguration": {
+        "Host": "localhost",
+        "Port": 5672,
+        "VHost": "/",
+        "Username": "guest",
+        "Password": "guest"
     }
 }

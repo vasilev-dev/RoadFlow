@@ -29,7 +29,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, T
     {
         var client = new HttpClient();
         var disco = await client.GetDiscoveryDocumentAsync(
-            _sharedConfiguration.IdentitySettings.Authority, cancellationToken);
+            _sharedConfiguration.IdentityConfiguration.Authority, cancellationToken);
 
         if (disco == null || disco.IsError)
             throw new ServerException($"Cannot connect to Identity Server");

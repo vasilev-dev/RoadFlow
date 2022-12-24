@@ -35,21 +35,21 @@ public class ExceptionHandlingMiddleware
         context.Response.ContentType = "application/json";
         switch (exception)
         {
-            case ClientException clientException:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            case ExceptionWithErrorCode exceptionWithErrorCode:
+                context.Response.StatusCode = (int)exceptionWithErrorCode.StatusCode;
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
-                    errorCode = clientException.ErrorCode,
-                    errorMessage = clientException.Message
+                    errorCode = exceptionWithErrorCode.ErrorCode,
+                    errorMessage = exceptionWithErrorCode.Message
                 }));
-                _logger.Warning(clientException, clientException.Message);
+                _logger.Warning(exceptionWithErrorCode, exceptionWithErrorCode.Message);
                 break;
             
             case ValidationException validationException:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new
                 {
-                    errorCode = ClientErrorCode.ValidationError,
+                    errorCode = ErrorCode.ValidationError,
                     validationErrors = validationException.Errors.Select(e => new
                     {
                         errorCode = e.ErrorCode,

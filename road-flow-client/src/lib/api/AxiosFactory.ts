@@ -2,10 +2,46 @@ import axios from 'axios';
 import TokenService from '../../features/authentication/services/TokenService';
 // eslint-disable-next-line import/no-cycle
 import AuthenticationApiService from '../../features/authentication/services/AuthenticationApiService';
+import ErrorCode from '../errors/ErrorCode';
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_GATEWAY_URL,
 });
+
+function accessTokenIsExpired(error: any): boolean {
+  return (
+    error?.response?.status === 401 &&
+    error?.response?.data?.errorCode !== ErrorCode.WrongUsernameOrPassword &&
+    error?.response?.data?.errorCode !== ErrorCode.UserNotActivated &&
+    // eslint-disable-next-line no-underscore-dangle
+    !error?.config?._retry
+  );
+}
+
+async function refreshToken(originalRequest: any): Promise<void> {
+  try {
+    const token = TokenService.getRefreshToken();
+    if (!token) {
+      // noinspection ExceptionCaughtLocallyJS
+      throw new Error('Refresh token deleted');
+    }
+    const tokenResponse = await AuthenticationApiService.refreshToken(token);
+    TokenService.setAccessToken(
+      tokenResponse.accessToken,
+      tokenResponse.expirationAccessTokenTime
+    );
+    TokenService.setRefreshToken(
+      tokenResponse.refreshToken,
+      tokenResponse.expirationRefreshTokenTime
+    );
+    // eslint-disable-next-line no-underscore-dangle,no-param-reassign
+    originalRequest._retry = true;
+    return await API(originalRequest);
+  } catch (e) {
+    window.location.href = '/sign-in';
+    return Promise.resolve();
+  }
+}
 
 API.interceptors.request.use(
   (config) => {
@@ -25,32 +61,8 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
-    // eslint-disable-next-line no-underscore-dangle
-    if (error?.response?.status === 401 && !originalRequest._retry) {
-      try {
-        const refreshToken = TokenService.getRefreshToken();
-        if (!refreshToken) {
-          // noinspection ExceptionCaughtLocallyJS
-          throw new Error('Refresh token deleted');
-        }
-        const tokenResponse = await AuthenticationApiService.refreshToken(
-          refreshToken
-        );
-        TokenService.setAccessToken(
-          tokenResponse.accessToken,
-          tokenResponse.expirationAccessTokenTime
-        );
-        TokenService.setRefreshToken(
-          tokenResponse.refreshToken,
-          tokenResponse.expirationRefreshTokenTime
-        );
-        // eslint-disable-next-line no-underscore-dangle
-        originalRequest._retry = true;
-        return await API(originalRequest);
-      } catch (e) {
-        window.location.href = '/sign-in';
-      }
+    if (accessTokenIsExpired(error)) {
+      await refreshToken(error.config);
     }
     return Promise.reject(error);
   }

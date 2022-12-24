@@ -71,6 +71,7 @@ function SignInForm() {
       />
 
       <Button
+        type="submit"
         onClick={handleSubmit(onSubmit)}
         colorScheme="blue"
         disabled={!isValid}

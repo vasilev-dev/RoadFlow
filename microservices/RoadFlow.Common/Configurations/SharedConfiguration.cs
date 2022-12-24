@@ -2,5 +2,6 @@
 
 public class SharedConfiguration
 {
-    public IdentityConfiguration IdentitySettings { get; set; }
+    public IdentityConfiguration IdentityConfiguration { get; set; }
+    public RabbitMQConfiguration RabbitMQConfiguration { get; set; }
 }

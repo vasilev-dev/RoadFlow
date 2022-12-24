@@ -1,8 +1,12 @@
 using AspNetCore.Identity.Mongo;
 using FluentValidation;
+using MassTransit;
+using MongoDB.Driver;
 using RoadFlow.Auth.API;
 using RoadFlow.Auth.Common.Configurations;
+using RoadFlow.Auth.DAL;
 using RoadFlow.Auth.Domain;
+using RoadFlow.Auth.Domain.ConfirmAccount;
 using RoadFlow.Auth.IdentityServer;
 using RoadFlow.Common.Extensions;
 using RoadFlow.Common.Middlewares;
@@ -14,6 +18,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var mongoDbConfiguration = builder.Configuration.GetSection("MongoDbConfiguration").Get<MongoDbConfiguration>();
+
 builder.Services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole, string>(identity => 
 {
     identity.User.RequireUniqueEmail = true;
@@ -23,19 +29,42 @@ builder.Services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole, st
     identity.Password.RequireNonAlphanumeric = true;
 }, mongo =>
 {
-    mongo.ConnectionString = builder.Configuration.GetConnectionString("MongoDB");
+    mongo.ConnectionString = mongoDbConfiguration.FullConnectionString;
 });
 
-var sharedConfiguration = builder.AddSharedConfiguration();
+var mongoClient = new MongoClient(mongoDbConfiguration.ConnectionString);
+builder.Services.AddSingleton<IMongoClient>(mongoClient);
+builder.Services.AddSingleton(mongoClient.GetDatabase(mongoDbConfiguration.DatabaseName));
 
+builder.Services.AddScoped<IAccountConfirmationRepository, AccountConfirmationRepository>();
+
+var sharedConfiguration = builder.AddSharedConfiguration();
 var identityServerConfiguration = new IdentityServerConfiguration();
-builder.Configuration.GetSection("IdentityServerSettings").Bind(identityServerConfiguration);
+builder.Configuration.GetSection("IdentityServerConfiguration").Bind(identityServerConfiguration);
 builder.Services.AddSingleton(identityServerConfiguration);
 
 builder.Services.AddRoadFlowLogger(RoadFlowAuthAPI.Assembly);
-builder.Services.AddRoadFlowAuthentication(sharedConfiguration.IdentitySettings);
+builder.Services.AddRoadFlowAuthentication(sharedConfiguration.IdentityConfiguration);
 builder.Services.AddValidatorsFromAssembly(RoadFlowAuthDomain.Assembly);
 builder.Services.AddRoadFlowMediatR(RoadFlowAuthDomain.Assembly);
+
+builder.Services.AddMassTransit(x =>
+{
+    var rabbitMQConfiguration = sharedConfiguration.RabbitMQConfiguration;
+    
+    x.UsingRabbitMq((context, configuration) =>
+    {
+        configuration.Host(
+            rabbitMQConfiguration.Host,
+            rabbitMQConfiguration.Port,
+            rabbitMQConfiguration.VHost,
+            x =>
+            {
+                x.Username(rabbitMQConfiguration.Username);
+                x.Password(rabbitMQConfiguration.Password);
+            });
+    });
+});
 
 var app = builder.Build();
 

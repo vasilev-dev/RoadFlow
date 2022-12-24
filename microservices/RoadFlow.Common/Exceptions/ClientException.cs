@@ -1,11 +1,10 @@
-﻿namespace RoadFlow.Common.Exceptions;
+﻿using System.Net;
 
-public class ClientException : Exception
+namespace RoadFlow.Common.Exceptions;
+
+public class ClientException : ExceptionWithErrorCode
 {
-    public string ErrorCode { get; }
-    
-    public ClientException(string errorCode, string message) : base(message)
+    public ClientException(string errorCode, string message) : base(errorCode, message, HttpStatusCode.BadRequest)
     {
-        ErrorCode = errorCode;
     }
 }

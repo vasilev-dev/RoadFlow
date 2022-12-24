@@ -38,9 +38,8 @@ public class ProfileService : IProfileService
 
     public async Task IsActiveAsync(IsActiveContext context)
     {
-        // todo check email confirmation
         var sub = context.Subject.GetSubjectId();
         var user = await _userManager.FindByIdAsync(sub);
-        context.IsActive = user != null;
+        context.IsActive = user is {EmailConfirmed: true};
     }
 }

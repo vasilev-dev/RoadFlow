@@ -8,7 +8,7 @@ builder.Services.AddSwaggerGen();
 
 var sharedConfiguration = builder.AddSharedConfiguration();
 
-builder.Services.AddRoadFlowAuthentication(sharedConfiguration.IdentitySettings);
+builder.Services.AddRoadFlowAuthentication(sharedConfiguration.IdentityConfiguration);
 
 var app = builder.Build();
 

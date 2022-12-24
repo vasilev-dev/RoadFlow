@@ -1,10 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Security.Claims;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using RoadFlow.Common.Exceptions;
 using RoadFlow.Common.Extensions;
 using RoadFlow.Seedwork.ApplicationUser;
+using RoadFlow.Seedwork.Events;
 using Serilog;
 
 namespace RoadFlow.Auth.Domain.SIgnUp;
@@ -25,11 +27,11 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
     public async Task<Unit> Handle(SignUpCommand request, CancellationToken cancellationToken)
     {
         if (_userManager.Users.Any(u => u.Email == request.Email))
-            throw new ClientException(ClientErrorCode.EmailAlreadyIsUser, 
+            throw new ClientException(ErrorCode.EmailAlreadyIsUsed, 
                 $"Email {request.Email} already is used");
         
         if (_userManager.Users.Any(u => u.UserName == request.Username))
-            throw new ClientException(ClientErrorCode.UsernameAlreadyIsUsed,
+            throw new ClientException(ErrorCode.UsernameAlreadyIsUsed,
                 $"Username {request.Username} already is used");
 
         var userId = Guid.NewGuid().ToString();
@@ -52,7 +54,7 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Unit>
         }
 
         await SaveUserClaims(user, ApplicationRoles.Default);
-
+        
         return Unit.Value;
     }
     

@@ -21,6 +21,8 @@ public static class WebApplicationExtensions
         builder.Configuration.Bind(sharedConfiguration);
 
         builder.Services.AddSingleton(sharedConfiguration);
+        builder.Services.AddSingleton(sharedConfiguration.IdentityConfiguration);
+        builder.Services.AddSingleton(sharedConfiguration.RabbitMQConfiguration);
 
         return sharedConfiguration;
     }

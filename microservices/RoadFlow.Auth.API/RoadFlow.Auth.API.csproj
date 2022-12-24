@@ -11,11 +11,15 @@
     <ItemGroup>
         <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.9" />
         <PackageReference Include="MediatR" Version="11.0.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
+        <PackageReference Include="Serilog" Version="2.12.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RoadFlow.Auth.DAL\RoadFlow.Auth.DAL.csproj" />
       <ProjectReference Include="..\RoadFlow.Auth.Domain\RoadFlow.Auth.Domain.csproj" />
       <ProjectReference Include="..\RoadFlow.Common\RoadFlow.Common.csproj" />
       <ProjectReference Include="..\RoadFlow.Seedwork\RoadFlow.Seedwork.csproj" />

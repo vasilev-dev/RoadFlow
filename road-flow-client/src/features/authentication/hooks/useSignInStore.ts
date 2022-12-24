@@ -29,6 +29,7 @@ const useSignInStore = create<SignInStoreProps>((set) => ({
       );
     } catch (error) {
       set({ errorMessage: ErrorHandler.getMessageFromError(error) });
+      throw error;
     } finally {
       set({ isLoading: false });
     }

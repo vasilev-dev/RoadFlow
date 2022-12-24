@@ -13,7 +13,7 @@ type ErrorMessageProps = {
 };
 
 function ErrorMessage({ title, errorMessage }: ErrorMessageProps) {
-  if (errorMessage) {
+  if (!errorMessage) {
     return null;
   }
 

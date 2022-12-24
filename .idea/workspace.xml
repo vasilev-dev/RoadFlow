@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ca6e72a7-be28-4a3b-ac71-25d805b696a3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Common/Extensions/TokenResponseExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/ExceptionWithErrorCode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/UnauthorizedException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/MediatR/EventSenderPostProcessor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/features/authentication/components/ConfirmEmailForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/hooks/useUser.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/lib/errors/ErrorCode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/pages/ConfirmEmailPage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/routes/AuthorizationGuardedElement.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/routes/GuardedElement.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/routes/GuardedRoute.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/road-flow-client/src/routes/Routes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Common/RoadFlow.Auth.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Common/RoadFlow.Auth.Common.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Domain/SIgnUp/SignUpCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Domain/SIgnUp/SignUpCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Domain/SignIn/SignInCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Auth.Domain/SignIn/SignInCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Auth.IdentityServer/ProfileService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Auth.IdentityServer/ProfileService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/ClientErrorCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/ErrorCode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/ClientException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Exceptions/ClientException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Common/Extensions/ServiceCollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservices/RoadFlow.Common/Middlewares/ExceptionHandlingMiddleware.cs" beforeDir="false" afterPath="$PROJECT_DIR$/microservices/RoadFlow.Common/Middlewares/ExceptionHandlingMiddleware.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/road-flow-client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/road-flow-client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/road-flow-client/src/components/ErrorMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/road-flow-client/src/components/ErrorMessage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/road-flow-client/src/features/authentication/components/SignInForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/road-flow-client/src/features/authentication/components/SignInForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/road-flow-client/src/features/authentication/hooks/useSignInStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/road-flow-client/src/features/authentication/hooks/useSignInStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/road-flow-client/src/lib/api/AxiosFactory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/road-flow-client/src/lib/api/AxiosFactory.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="2J2OwbKJu6C2b78krbmTGXX1zWU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca6e72a7-be28-4a3b-ac71-25d805b696a3" name="Changes" comment="" />
+      <created>1671272951129</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1671272951129</updated>
+      <workItem from="1671272952435" duration="15000" />
+    </task>
+    <servers />
+  </component>
+</project>
